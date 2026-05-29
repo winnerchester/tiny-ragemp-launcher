@@ -1,0 +1,43 @@
+# Build output
+build/
+out/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+Testing/
+
+# MSVC
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.idb
+*.suo
+*.user
+*.vcxproj.filters
+.vs/
+
+# Ninja
+.ninja_deps
+.ninja_log
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Local secrets / scratch
+*.local
+local/
+scratch/
