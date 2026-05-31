@@ -1,0 +1,53 @@
+{
+  "_about": "Edit this file and run 'python build.py'. See palette.png for the color map.",
+
+  "_paths": "base_rui = source (NEVER modified), out_rui = output file. Paths are relative to this folder. Put your launcher's original index.rui here as 'index.bak.rui'.",
+  "base_rui": "../index.bak.rui",
+  "out_rui": "../index.rui",
+
+  "_auto_connect": "Connect to a fixed server when the launcher opens. enabled=false to disable.",
+  "auto_connect": {
+    "enabled": false,
+    "ip": "play.heyarda.dev",
+    "port": 22005,
+    "delay_ms": 1,
+    "name": "AutoConnect"
+  },
+
+  "title": "rage-ui",
+
+  "_colors": "old hex -> new hex (lowercase). The demo below recolors the gold accent to teal; remove it to keep the original. See palette_reference for all groups, or palette.png.",
+  "colors": {
+    "#f1c40f": "#00d1b2",
+    "#ffce34": "#1de9b6",
+    "#c9b400": "#00a896"
+  },
+
+  "palette_reference": {
+    "accent_gold":  ["#f1c40f", "#ffce34", "#c9b400"],
+    "dark_bg":      ["#181818", "#202020", "#272727", "#323232", "#393939", "#3e3e3e", "#404040", "#4b4b4b"],
+    "gray_text":    ["#7a7a7a", "#8f8f8f", "#a2a2a2", "#b2b2b2", "#b8b8b8", "#cdcdcd"],
+    "purple":       ["#ae81ff"],
+    "green_online": ["#2ecc71", "#2ab858", "#4cd964", "#b6ff81"],
+    "red_error":    ["#e74c3c", "#e81123", "#d10d1e", "#d94c4c"],
+    "blue_link":    ["#2973b7", "#68acec"]
+  },
+
+  "_texts": "Replace plain text in app.js + index.html. Each item is [old, new].",
+  "texts": [
+  ],
+
+  "_images": "Files in assets/images/ (img_XXX.jpg) are used automatically. To change an image, replace that file with your own (same name). The colorful placeholders show which slot appears where.",
+  "use_images_folder": true,
+
+  "_server_list": "override=true makes this list FULLY define the UI server list (master/cache4.bin is ignored). servers=[] -> empty list. Clicking connects to ip:port. Add [1.1] to a name to also show it under the '1.1' tab.",
+  "_server_entry": "Add servers in order below. REQUIRED: name, ip, port. Optional (defaults applied): players, maxplayers, ping, lang, gamemode, url. Each server is a { } block, separated by commas.",
+  "server_list": {
+    "override": true,
+    "servers": [
+      { "name": "My Server #1", "ip": "play.heyarda.dev", "port": 22005, "players": 250, "maxplayers": 1000, "lang": "tr", "gamemode": "Roleplay", "url": "https://heyarda.dev" },
+      { "name": "My Server #2 [1.1]", "ip": "play.heyarda.dev", "port": 22005, "players": 80,  "maxplayers": 500,  "lang": "de", "gamemode": "Freeroam", "url": "https://github.com/winnerchester" },
+      { "name": "Test Server",        "ip": "play.heyarda.dev",   "port": 22005, "players": 80,  "maxplayers": 500,  "lang": "tr", "gamemode": "Freeroam", "url": "https://github.com/winnerchester" }
+    ]
+  }
+}

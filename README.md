@@ -1,5 +1,13 @@
 # tiny-ragemp-launcher
 
+> ⚠️ **Disclaimer**
+>
+> This project exists solely to keep a shutting-down launcher alive. It has **no
+> commercial use and no monetization** behind it. I respect the rights of Rockstar
+> Games (Take-Two Interactive) and RAGE:MP — if an official objection is raised, I
+> will take the project down entirely. What is done here falls under **abandonware
+> preservation**.
+
 ![launcher](launcher.png)
 
 Tiny ImGui frontend that wraps `RAGEMP\updater.exe`. Type IP + port, hit Connect,
@@ -61,22 +69,60 @@ Apply with any hex editor or script. The patched updater calculates `upd` token
 correctly, calls `ShellExecuteExW("ragemp_v.exe")` with proper params, and
 the client loads offline.
 
-## Domain Whitelist (WIP)
+## Domain Whitelist (solved)
 
 `ragemp_v.exe` has a hardcoded domain whitelist for `launch2.ip` registry
 values — only `*.gta5rp.com` and `*.grandrp.com` subdomains pass. Custom
 domains like `play.xxxx.com` get rejected silently (registry cleared, server
 browser loads instead of direct connect).
 
-Workaround: Use hosts file to redirect a whitelisted domain to your server IP. You can automize it via launcher.
+Two ways around it:
+
+**1. hosts file** — map a whitelisted domain to your server IP:
 
 ```
 # In C:\Windows\System32\drivers\etc\hosts
 YOUR.SERVER.IP  myserver.gta5rp.com
 ```
 
-Then set `launch2.ip = myserver.gta5rp.com`. RAGEMP passes whitelist check,
-DNS resolves to your IP via hosts, connects to your server.
+Set `launch2.ip = myserver.gta5rp.com`. RAGEMP passes the whitelist check, DNS
+resolves to your IP via hosts, connects to your server. Can be automated by the launcher.
+
+**2. rui editor auto-connect** — set `auto_connect` (raw IP + port) in
+`tools/config.json`. The UI calls `launchGame(ip,port)` directly with an IP, and the
+whitelist only filters *domains* — a raw IP isn't subject to it, so any server works.
+
+## RUI UI Editor (tools/)
+
+`updater.exe` renders the launcher UI from `RAGEMP\cef\` + `RAGEMP\rui\index.rui` — a
+webpack-built Vue SPA packed into a custom two-table archive (265 contiguous files,
+entries stored raw). `tools/` is a config-driven editor that repacks it byte-exact:
+an unmodified build reproduces the source identically. Pure Python, no deps.
+
+    cd tools
+    # set base_rui / out_rui in config.json to your index.rui paths
+    python build.py
+
+Edit `tools/config.json`:
+
+| Key | Effect |
+|-----|--------|
+| `auto_connect` | call `launchGame(ip,port)` on UI load — auto-join on open |
+| `server_list` | `override:true` replaces the shown list (empty it, or list your own); no master / `cache4.bin` needed |
+| `colors` | remap theme hex colors (map in `palette.png`) |
+| `texts` / `title` | replace any UI string / window title |
+| images | drop a JPEG into `assets/images/img_XXX.jpg` — placeholders show which slot is which; `originals/` keeps the real ones |
+
+The server-list override only changes what the browser *shows*; clicking a row still
+connects through the normal `rageApi.launchGame` path.
+
+Custom server list (3 entries from `config.json`):
+
+![server list](tools/screenshots/serverlist.png)
+
+Placeholder image as the loading background (`IMG 006` = that slot) + recolored loader bar:
+
+![loading screen](tools/screenshots/loading.png)
 
 ## Roadmap
 
@@ -84,5 +130,6 @@ DNS resolves to your IP via hosts, connects to your server.
 |--------|------|
 | ✅ | Launcher — registry write + spawn updater |
 | ✅ | Updater offline bypass — 6 patches, CDN check skipped |
-| 🔄 | Domain whitelist bypass |
+| ✅ | RUI UI editor — config-driven, byte-exact repack |
+| ✅ | Domain whitelist bypass — hosts file or rui auto-connect by IP |
 
