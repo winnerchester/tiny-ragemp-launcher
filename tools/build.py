@@ -37,7 +37,7 @@ def edit_text(blob, is_appjs):
     ac = CFG.get('auto_connect', {})
     if is_appjs and ac.get('enabled'):
         anchor = b'_.servers.refresh)}'
-        inj = ('_.servers.refresh),setTimeout(()=>{this.launchGame({ip:"%s",port:%d,name:"%s"},!0)},%d)}'
+        inj = ('_.servers.refresh),setTimeout(()=>{rageApi.isALauncher&&this.launchGame({ip:"%s",port:%d,name:"%s"},!0)},%d)}'
                % (ac['ip'], int(ac['port']), ac.get('name','AutoConnect'), int(ac.get('delay_ms',2000)))).encode()
         c = out.count(anchor)
         if c != 1:
